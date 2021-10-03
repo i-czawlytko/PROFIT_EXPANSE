@@ -1,0 +1,59 @@
+﻿<Window x:Class="WPFUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFUI"
+        mc:Ignorable="d"
+        Title="Учет доходов/расходов" Height="450" Width="800" ResizeMode="CanMinimize">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.125*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.125*"></RowDefinition>
+            <RowDefinition Height="0.075*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu Height="25" VerticalAlignment="Top" Grid.Row="0">
+            <MenuItem Header="Меню">
+                <MenuItem Header="Пользователи" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Экспорт данных" Command="{Binding ExportCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <ListView Name="DataListView" Margin="5" ItemsSource="{Binding DataRecords}" Grid.Row="1" SelectedItem="{Binding SelectedDataRecord}">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path=Id}"></GridViewColumn>
+                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=Summ}"></GridViewColumn>
+                        <GridViewColumn Header="Операция" DisplayMemberBinding="{Binding Path=OperationName}"></GridViewColumn>
+                        <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Path=Category}"></GridViewColumn>
+                        <GridViewColumn Header="Получатель" DisplayMemberBinding="{Binding Path=Recipient}"></GridViewColumn>
+                        <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Path=Description}"></GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button x:Name="AddButton" Width="120" Height="20" Margin="5" Content="Добавить запись" Background="LightGray" Command="{Binding AddCommand}"/>
+            <Button x:Name="DeleteButton" Width="120" Height="20" Margin="5" Content="Удалить запись" Background="LightGray" Command="{Binding DeleteCommand}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Margin="2" Text="Баланс: " />
+            <TextBlock Margin="2" Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged}" />
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            <TextBlock Margin="2" Text="ФИО пользователя: " />
+            <TextBlock Margin="2" Text="{Binding UserFullName}" />
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            <TextBlock Margin="2" Text="Режим: " />
+            <TextBlock Margin="2" Text="{Binding UserRole}" />
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            <TextBlock Margin="2" Text="Логин: " />
+            <TextBlock Margin="2" Text="{Binding UserLogin}" />
+        </StackPanel>
+    </Grid>
+</Window>
