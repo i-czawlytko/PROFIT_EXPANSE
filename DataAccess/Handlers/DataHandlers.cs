@@ -17,10 +17,10 @@ namespace DataAccess.Handlers
         private IDataRepository repo;
         public const string securityErrorMessage = "Ошибка доступа (у пользрвателя недостаточно прав)";
 
-        public BaseDataHandler()
+        public BaseDataHandler(IDataRepository repository, IExporter exp)
         {
-            repo = new MsSqlDataRepository();
-            exporter = new ExcelExporter();
+            repo = repository;
+            exporter = exp;
             _balance = repo.GetBalance();
         }
         public virtual List<DataRecord> GetDataRecords()
@@ -54,11 +54,15 @@ namespace DataAccess.Handlers
 
     public class UserDataHandler : BaseDataHandler
     {
+        public UserDataHandler(IDataRepository repository, IExporter exp) : base(repository, exp) {}
         public override void DeleteRecord(DataRecord rec)
         {
             throw new SecurityException(securityErrorMessage);
         }
     }
 
-    public class AdminDataHandler : BaseDataHandler {}
+    public class AdminDataHandler : BaseDataHandler
+    {
+        public AdminDataHandler(IDataRepository repository, IExporter exp) : base(repository, exp) { }
+    }
 }

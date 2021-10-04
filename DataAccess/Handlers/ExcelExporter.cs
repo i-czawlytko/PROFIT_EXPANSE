@@ -35,7 +35,7 @@ namespace DataAccess.Handlers
                     sch.Cells[counter, 2].Value = r.Summ;
                     sch.Cells[counter, 3].Value = r.Category;
                     sch.Cells[counter, 4].Value = r.Recipient;
-                    sch.Cells[counter, 5].Value = r.Operation;
+                    sch.Cells[counter, 5].Value = r.OperationName;
                     counter++;
                 }
                 ep.Save();

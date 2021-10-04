@@ -9,15 +9,21 @@ namespace DataAccess
     public class DataModel
     {
         public IDataHandler dataHandler { get; }
-        private IAuthHandler auth;
+        private IAuthHandler _auth;
+        private IDBInit _dbInit;
+        private DataHandlerFactory _dataHandlerFactory;
         public UserInfo userInfo { get; }
 
-        public DataModel()
+        public DataModel(IAuthHandler auth, IDBInit dbInit, DataHandlerFactory dataHandlerFactory)
         {
-            DBInit.Init();
-            IAuthHandler auth = new AuthHandler();
-            userInfo = auth.GetUserInfo();
-            dataHandler = DataHandlerFactory.CreateDataHandler(userInfo.RoleType);
+            _dbInit = dbInit;
+            _dbInit.Init();
+
+            _auth = auth;
+
+            _dataHandlerFactory = dataHandlerFactory;
+            userInfo = _auth.GetUserInfo();
+            dataHandler = dataHandlerFactory.CreateDataHandler(userInfo.RoleType);
         }
     }
 }

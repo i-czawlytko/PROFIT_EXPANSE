@@ -15,7 +15,7 @@ namespace WPFUI
 {
     class ControlViewModel : INotifyPropertyChanged
     {
-        private BaseControlHandler controlHandler;
+        private ControlModel model;
         public ObservableCollection<UserRecord> UserRecords { get; set; }
         public UserRecord SelectedUserRecord { get; set; }
         RelayCommand addCommand;
@@ -24,11 +24,9 @@ namespace WPFUI
         {
             try
             {
-                AuthHandler auth = new AuthHandler();
-                UserInfo userInfo = auth.GetUserInfo();
-                controlHandler = ControlHandlerFactory.CreateControlHandler(userInfo.RoleType);
+                model = DataAccessApplication.GetControlModel();
 
-                UserRecords = new ObservableCollection<UserRecord>(controlHandler.GetUserRecords());
+                UserRecords = new ObservableCollection<UserRecord>(model.controlHandler.GetUserRecords());
             }
             catch (SecurityException e)
             {
@@ -49,9 +47,9 @@ namespace WPFUI
                           AddUserWindow addUserWindow = new AddUserWindow();
                           if (addUserWindow.ShowDialog() == true)
                           {
-                              controlHandler.AddUser(addUserWindow.VM.UserRecord);
+                              model.controlHandler.AddUser(addUserWindow.VM.UserRecord);
                               UserRecords.Clear();
-                              controlHandler.GetUserRecords().ForEach(x => UserRecords.Add(x));
+                              model.controlHandler.GetUserRecords().ForEach(x => UserRecords.Add(x));
                           }
                       }
                       catch (SecurityException e)
@@ -76,7 +74,7 @@ namespace WPFUI
                         try
                         {
                             if (SelectedUserRecord == null) return;
-                            controlHandler.DeleteUser(SelectedUserRecord);
+                            model.controlHandler.DeleteUser(SelectedUserRecord);
                             UserRecords.Remove(SelectedUserRecord);
                         }
                         catch (SecurityException e)

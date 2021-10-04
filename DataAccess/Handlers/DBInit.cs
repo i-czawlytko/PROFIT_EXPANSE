@@ -6,14 +6,15 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text;
+using DataAccess.Interfaces;
 
 namespace DataAccess.Handlers
 {
-    public static class DBInit
+    public class MsSqlDBInit : IDBInit
     {
-        private static IConfigurationRoot configuration;
-        private static IDbConnection db;
-        public static void Init()
+        private IConfigurationRoot configuration;
+        private IDbConnection db;
+        public void Init()
         {
             string filepath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).FullName, "INIT.sql");
             string Sql = File.ReadAllText(filepath, Encoding.Default);
@@ -25,7 +26,7 @@ namespace DataAccess.Handlers
 
         }
 
-        private static string getConnectionString()
+        private string getConnectionString()
         {
             configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)

@@ -7,13 +7,13 @@ using DataAccess.Repositories;
 
 namespace DataAccess.Handlers
 {
-    public abstract class BaseControlHandler
+    public abstract class BaseControlHandler : IControlHandler
     {
         private IControlRepository repo;
         public const string securityErrorMessage = "Ошибка доступа (у пользрвателя недостаточно прав)";
-        public BaseControlHandler()
+        public BaseControlHandler(IControlRepository repository)
         {
-            repo = new MsSqlUserRepository();
+            repo = repository;
         }
         public virtual List<UserRecord> GetUserRecords()
         {
@@ -31,6 +31,7 @@ namespace DataAccess.Handlers
 
     public class UserControlHandler : BaseControlHandler
     {
+        public UserControlHandler(IControlRepository repository) : base (repository) {}
         public override void AddUser(UserRecord rec)
         {
             throw new SecurityException(securityErrorMessage);
@@ -41,5 +42,8 @@ namespace DataAccess.Handlers
         }
     }
 
-    public class AdminControlHandler : BaseControlHandler {}
+    public class AdminControlHandler : BaseControlHandler
+    {
+        public AdminControlHandler(IControlRepository repository) : base(repository) {}
+    }
 }

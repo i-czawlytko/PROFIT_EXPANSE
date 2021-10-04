@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccess.Interfaces
 {
-    interface IRoleHandler
+    public interface IRoleHandler
     {
         public UserInfo GetUserInfo(string userLogin);
     }

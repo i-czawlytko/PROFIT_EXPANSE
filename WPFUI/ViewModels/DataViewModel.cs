@@ -43,7 +43,7 @@ namespace WPFUI
         {
             try
             {
-                model = new DataModel();
+                model = DataAccessApplication.GetDataModel();
 
                 this.Balance = model.dataHandler.Balance;
                 CheckBalance();
@@ -118,9 +118,14 @@ namespace WPFUI
                             if (exportPathWindow.ShowDialog() == true)
                             {
                                 model.dataHandler.Export(exportPathWindow.ExportPath);
+                                MessageBox.Show("Данные экспортированы");
                             }
                         }
                         catch(DirectoryNotFoundException e)
+                        {
+                            MessageBox.Show(e.Message);
+                        }
+                        catch(Exception e)
                         {
                             MessageBox.Show(e.Message);
                         }

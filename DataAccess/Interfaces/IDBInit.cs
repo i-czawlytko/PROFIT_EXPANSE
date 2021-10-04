@@ -4,9 +4,8 @@ using System.Text;
 
 namespace DataAccess.Interfaces
 {
-    public interface IAccountHandler
+    public interface IDBInit
     {
-        public string GetRole();
-
+        public void Init();
     }
 }
